@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feliz Aniversário, Amor!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
@@ -20,7 +21,6 @@
             text-align: center;
         }
 
-        /* Efeito de Corações ao Fundo */
         .heart-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -28,7 +28,6 @@
             z-index: -1;
         }
 
-        /* Seções */
         section {
             min-height: 100vh;
             display: flex;
@@ -38,41 +37,31 @@
             padding: 20px;
         }
 
-        h1 { color: var(--primary-color); font-size: 3rem; }
+        h1 { color: var(--primary-color); font-size: 3rem; margin-bottom: 10px; }
         
-        /* Timer */
         #timer {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: bold;
             background: white;
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-top: 20px;
+            margin: 20px auto;
+            max-width: 500px;
         }
 
-        /* Galeria de Fotos */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            width: 80%;
-            margin-top: 50px;
+        .text-content {
+            max-width: 800px;
+            line-height: 1.6;
+            text-align: justify;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 30px;
+            border-radius: 20px;
         }
 
-        .gallery img {
-            width: 100%;
-            border-radius: 10px;
-            transition: transform 0.3s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        .gallery img:hover { transform: scale(1.05); }
-
-        /* Estilo do Áudio */
         .audio-section {
             background: #ffb3c1;
-            padding: 40px;
+            padding: 60px 20px;
             width: 100%;
         }
 
@@ -85,72 +74,91 @@
             border-radius: 50px;
             cursor: pointer;
             margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+        .btn-party:hover { transform: scale(1.1); }
+
+        .photo-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 50px 20px;
+            flex-wrap: wrap;
         }
 
-        /* Container que segura as duas tiras de fotos */
-    .photo-container {
-        display: flex;
-        justify-content: center;
-        gap: 40px; /* Espaço entre as duas tiras */
-        padding: 50px 20px;
-        flex-wrap: wrap;
-    }
+        .photo-strip {
+            background: white;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: transform 0.3s ease;
+        }
 
-    /* A "tira" de papel (estilo imagem 2) */
-    .photo-strip {
-        background: white;
-        padding: 15px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        transform: rotate(-2deg); /* Inclinação charmosa */
-        transition: transform 0.3s ease;
-    }
+        .photo-strip:nth-child(1) { transform: rotate(-2deg); }
+        .photo-strip:nth-child(2) { transform: rotate(3deg); }
+        .photo-strip:hover { transform: rotate(0deg) scale(1.05); z-index: 10; }
 
-    .photo-strip:nth-child(2) {
-        transform: rotate(3deg); /* Inclinação oposta para a segunda tira */
-    }
+        .polaroid-frame {
+            background: #fff;
+            padding: 10px 10px 30px 10px;
+            border: 1px solid #eee;
+        }
 
-    .photo-strip:hover {
-        transform: rotate(0deg) scale(1.02); /* Endireita ao passar o mouse */
-    }
+        .polaroid-frame img {
+            width: 220px;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
 
-    /* O frame de cada foto (estilo imagem 1) */
-    .polaroid-frame {
-        background: #fff;
-        padding: 10px 10px 30px 10px; /* Base maior para parecer uma Polaroid real */
-        border: 1px solid #eee;
-        box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-    }
+        .caption {
+            font-family: 'Indie Flower', cursive;
+            font-size: 1.1rem;
+            color: #555;
+            margin-top: 10px;
+        }
 
-    .polaroid-frame img {
-        width: 200px; /* Ajuste o tamanho conforme preferir */
-        height: 200px;
-        object-fit: cover; /* Garante que fotos de tamanhos diferentes fiquem quadradas */
-        display: block;
-    }
-
-    /* Legenda discreta embaixo da foto */
-    .caption {
-        font-family: 'Indie Flower', cursive; /* Se quiser, pode importar essa fonte do Google */
-        font-size: 0.9rem;
-        color: #555;
-        margin-top: 10px;
-    }
-</style>
+        #musicToggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
 
     <div class="heart-bg" id="heartContainer"></div>
 
-    <section style="padding: 100px;">
+    <audio id="bgMusic" loop>
+        <source src="SailorSong.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="musicToggle">🔊</button>
+
+    <section>
         <h1>Parabéns, Minha Princesinha! 🩵🤍</h1>
-        <p>Hoje você faz 19 anos, e cada segundo que passei ao seu lado foi um presente.</p>
-        <p>Hoje em dia eu não lembro como comecei a te seguir, mas toda vez que eu abria o aplicativo, você estava lá, republicando e comentando em todos os vídeos que apareciam pra mim, no começo eu achei engraçado, mas dps de semanas assim, chega a ficar estranho, estranho ao ponto em que eu te mandei mensagem pela primeira vez, algo bobo, implicando sobre como você consegue aparecer em todos os vídeos engraçados que eu vejo, e a gente continuou conversando, e fomos nos conhecendo, fiquei curiosos ao ponto de ver tudo o que você republicava, cada dia eu me interessava mais um pouco em você, e finalmente o que veio para selar a nossa amizade, o foguinho do tiktok, o que não era tão frequente passou a ser constante, todo dia, uma mensagem, ou nosso fogo iria apagar, e se isso acontecesse... só Deus sabe o que você faria de mim.</p>
-        <p>Ao passar do tempo comecei a pensar em você todos os dias, conheci pouco a pouco um pouco mais da sua vida, e a cada dia, sem perceber, eu me apaixonava por você, começamos a conversar pelo whatsapp, para jogar free fire, mas o que eu queria na verdade, era descobrir qual era o som da voz da pessoa que me faz sonhar acordado, e assim que eu ouvi tive a certeza, essa garota vai ser minha namorada.</p>
-        <p>Trocamos mensagens, trocamos fotos, trocamos áudios e gastamos horas e horas dos nossos dias em call, sempre com algum assunto, ou apenas para dormir com a companhia do outro, eu amo o nosso começo, mas amo ainda mais o nosso presente, ver como nosso relacionamento se concretizou, como você ficou mais madura e confiável, ver que cada dia você cresce e evolui mais um pouco, ver como você se importa e como é atenciosa com as pessoas que você ama, isso me faz te amar cada dia mais e mais, e espero que minha admiração por você cresça cada dia mais, pois eu sei que um dia você será a mãe dos meus filhos, e minha amada esposa.</p>
-        <p>Feliz 19 anos, minha princesa🤍</p>
+        <div class="text-content">
+            <p>(Antes de ler, clica na tela pra tocar uma música que você ama😊)</p>
+            <p>Hoje você faz 19 anos, e cada segundo que passei ao seu lado foi um presente.</p>
+            <p>Hoje em dia eu não lembro como comecei a te seguir, mas toda vez que eu abria o aplicativo, você estava lá, republicando e comentando em todos os vídeos que apareciam pra mim, no começo eu achei engraçado, mas dps de semanas assim, chega a ficar estranho, estranho ao ponto em que eu te mandei mensagem pela primeira vez, algo bobo, implicando sobre como você consegue aparecer em todos os vídeos engraçados que eu vejo, e a gente continuou conversando, e fomos nos conhecendo, fiquei curiosos ao ponto de ver tudo o que você republicava, cada dia eu me interessava mais um pouco em você, e finalmente o que veio para selar a nossa amizade, o foguinho do tiktok, o que não era tão frequente passou a ser constante, todo dia, uma mensagem, ou nosso fogo iria apagar, e se isso acontecesse... só Deus sabe o que você faria de mim.</p>
+            <p>Ao passar do tempo comecei a pensar em você todos os dias, conheci pouco a pouco um pouco mais da sua vida, e a cada dia, sem perceber, eu me apaixonava por você, começamos a conversar pelo whatsapp, para jogar free fire, mas o que eu queria na verdade, era descobrir qual era o som da voz da pessoa que me faz sonhar acordado, e assim que eu ouvi tive a certeza, essa garota vai ser minha namorada.</p>
+            <p>Trocamos mensagens, trocamos fotos, trocamos áudios e gastamos horas e horas dos nossos dias em call, sempre com algum assunto, ou apenas para dormir com a companhia do outro, eu amo o nosso começo, mas amo ainda mais o nosso presente, ver como nosso relacionamento se concretizou, como você ficou mais madura e confiável, ver que cada dia você cresce e evolui mais um pouco, ver como você se importa e como é atenciosa com as pessoas que você ama, isso me faz te amar cada dia mais e mais, e espero que minha admiração por você cresça cada dia mais, pois eu sei que um dia você será a mãe dos meus filhos, e minha amada esposa.</p>
+            <p>Feliz 19 anos, minha princesa🤍</p>
+        </div>
         <div id="timer">Carregando nosso tempo juntos...</div>
         <p style="margin-top: 20px;">Role para baixo ↓</p>
     </section>
@@ -160,41 +168,39 @@
         <button class="btn-party" onclick="celebrate()">Clica aqui pra comemorar! 🎉</button>
         <br>
         <audio controls>
-            <source src="audio.ogg" type="audio/mpeg">
+            <source src="audio.ogg" type="audio/ogg">
             Seu navegador não suporta áudio.
         </audio>
     </section>
 
     <section>
         <h2>Nossos Momentos juntos🤍🩵</h2>
-        
         <div class="photo-container">
             <div class="photo-strip">
                 <div class="polaroid-frame">
-                    <img src="foto1.jpeg" alt="Momento 1">
+                    <img src="foto1.jpeg" alt="Foto 1">
                     <div class="caption">Lanchino do Stranger Things</div>
                 </div>
                 <div class="polaroid-frame">
-                    <img src="foto2.jpeg" alt="Momento 2">
+                    <img src="foto2.jpeg" alt="Foto 2">
                     <div class="caption">Nosso primeiro natal</div>
                 </div>
                 <div class="polaroid-frame">
-                    <img src="foto3.jpeg" alt="Momento 3">
+                    <img src="foto3.jpeg" alt="Foto 3">
                     <div class="caption">A rainha no mac&#60;3</div>
                 </div>
             </div>
-
             <div class="photo-strip">
                 <div class="polaroid-frame">
-                    <img src="foto4.jpeg" alt="Momento 4">
+                    <img src="foto4.jpeg" alt="Foto 4">
                     <div class="caption">Visitinha no trabalho</div>
                 </div>
                 <div class="polaroid-frame">
-                    <img src="foto5.jpeg" alt="Momento 5">
+                    <img src="foto5.jpeg" alt="Foto 5">
                     <div class="caption">Nosso rolê no Pq Cesamar</div>
                 </div>
                 <div class="polaroid-frame">
-                    <img src="foto6.jpeg" alt="Momento 6">
+                    <img src="foto6.jpeg" alt="Foto 6">
                     <div class="caption">Nosso segundo ano novo juntos</div>
                 </div>
             </div>
@@ -202,55 +208,67 @@
     </section>
 
     <script>
-        // 1. Configuração do Timer (Coloque a data que se conheceram aqui)
-        const startDate = new Date("2024-04-15T12:00:00"); // Formato: Ano-Mês-DiaTHora:Minuto:Segundo
-
+        // O Script agora fica no final para garantir que todos os elementos ID existam
+        const music = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        
+        // Timer
+        const startDate = new Date("2024-04-15T12:00:00");
         function updateTimer() {
             const now = new Date();
             const diff = now - startDate;
-
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
             const minutes = Math.floor((diff / 1000 / 60) % 60);
             const seconds = Math.floor((diff / 1000) % 60);
-
-            document.getElementById("timer").innerHTML = 
-                `${days} dias, ${hours}h, ${minutes}m e ${seconds}s de nós dois.`;
+            document.getElementById("timer").innerHTML = `${days} dias, ${hours}h, ${minutes}m e ${seconds}s de nós dois.`;
         }
         setInterval(updateTimer, 1000);
 
-        // 2. Confetes
+        // Confetes
         function celebrate() {
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-            // Som de festa (opcional: descomente se tiver o arquivo)
-            // new Audio('party-horn.mp3').play();
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         }
 
-        // 3. Corações Flutuantes (Simples animação JS/CSS)
+        // Corações
         function createHeart() {
             const heart = document.createElement("div");
             heart.innerHTML = "❤️";
-            heart.style.position = "fixed";
+            heart.className = "heart-bg"; // Usando a classe de fundo
             heart.style.left = Math.random() * 100 + "vw";
             heart.style.top = "100vh";
             heart.style.fontSize = Math.random() * 20 + 10 + "px";
             heart.style.opacity = Math.random();
+            heart.style.position = "fixed";
             heart.style.transition = "transform 5s linear, opacity 5s";
-            
             document.getElementById("heartContainer").appendChild(heart);
-
             setTimeout(() => {
                 heart.style.transform = `translateY(-110vh) rotate(${Math.random() * 360}deg)`;
                 heart.style.opacity = "0";
             }, 100);
-
             setTimeout(() => heart.remove(), 6000);
         }
         setInterval(createHeart, 300);
+
+        // MÚSICA - Lógica Corrigida
+        music.volume = 0.1;
+
+        document.body.addEventListener('click', () => {
+            if (music.paused) {
+                music.play().catch(e => console.log("Erro ao tocar:", e));
+            }
+        }, { once: true });
+
+        musicToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (music.paused) {
+                music.play();
+                musicToggle.innerHTML = "🔊";
+            } else {
+                music.pause();
+                musicToggle.innerHTML = "🔇";
+            }
+        });
     </script>
 </body>
 </html>
